@@ -49,9 +49,10 @@ namespace AutoJPT1
             action.Click();
             // Right Click
             action.ContextClick();
+            action.SendKeys(Keys.Down);
+            action.SendKeys(Keys.Enter);
             action.Perform();
 
-            sessionJpt.FindElementByName("Select").Click();
             sessionJpt.FindElementByName("Apply").Click();
 
             action = new Actions(sessionJpt);
@@ -61,13 +62,15 @@ namespace AutoJPT1
             sessionJpt.FindElementByName("Cancel").Click();
             sessionJpt.FindElementByName("Close Gaps").Click();
 
-            sessionJpt.FindElementByAccessibilityId("1001").SendKeys("0.01");
             action = new Actions(sessionJpt);
             action.MoveToElement(allParts);
             action.Click();
             action.ContextClick();
+            action.SendKeys(Keys.Down);
+            action.SendKeys(Keys.Enter);
             action.Perform();
-            sessionJpt.FindElementByName("Select").Click();
+
+            sessionJpt.FindElementByAccessibilityId("1001").SendKeys("0.01");
             sessionJpt.FindElementByName("OK").Click();
             
 
@@ -88,12 +91,12 @@ namespace AutoJPT1
             action.SendKeys(Keys.Enter);
             action.Perform();
 
-            int [] faceIdArr = { 321, 320, 333, 332, 343, 342, 354, 353, 350, 340, 351, 341, 329, 317, 328 };
+            int [] faceIdArr = { 321, 317, 316, 320, 333, 343, 354, 353, 342, 332, 328, 340, 350, 351, 341, 329 };
 
             WindowsElement idBox = sessionJpt.FindElementByAccessibilityId("1582");
          
             foreach (int faceId in faceIdArr){
-                InputId(faceId, idBox, sessionJpt, find);
+                InputId(faceId, idBox, action, sessionJpt, find);
             }
 
             sessionJpt.FindElementByName("OK").Click();
@@ -101,14 +104,14 @@ namespace AutoJPT1
 
 
         }
-        public static void InputId(int faceId, WindowsElement idBox,
+        public static void InputId(int faceId, WindowsElement idBox, Actions action,
                             WindowsDriver<WindowsElement> sessionJpt, WindowsElement find)
         {
             idBox.SendKeys(Keys.Control + "a" + Keys.Control);
             idBox.SendKeys(Convert.ToString(faceId));
-            Actions action5 = new Actions(sessionJpt);
-            action5.MoveToElement(find);
-            action5.MoveToElement(find, find.Size.Width / 2 - 30, find.Size.Height / 3 - 8).Click().Perform();
+            action = new Actions(sessionJpt);
+            action.MoveToElement(find);
+            action.MoveToElement(find, find.Size.Width / 2 - 30, find.Size.Height / 3 - 8).Click().Perform();
         }
     }
 }
