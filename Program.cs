@@ -39,6 +39,7 @@ namespace AutoJPT1
             action.SendKeys(@"V:\Technologies\CS\UIAutomation\ScenarioTestDocs\SampleData\Block\Block.jtdb");
             action.SendKeys(Keys.Enter);
             action.Perform();
+
             
             sessionJpt.FindElementByName("Mesh Cleanup").Click();
             sessionJpt.FindElementByName("Free Edges").Click();
@@ -70,9 +71,10 @@ namespace AutoJPT1
             action.SendKeys(Keys.Enter);
             action.Perform();
 
-            sessionJpt.FindElementByAccessibilityId("1001").SendKeys("0.01");
-            sessionJpt.FindElementByName("OK").Click();
+            typeInBox(1001, 0.01, sessionJpt);
             
+            sessionJpt.FindElementByName("OK").Click();
+
 
             sessionJpt.FindElementByName("Geometry").Click();
             sessionJpt.FindElementByName("Merge Entities").Click();
@@ -81,7 +83,7 @@ namespace AutoJPT1
             action.SendKeys(Keys.Down);
             action.SendKeys(Keys.Enter);
             action.Perform();
-            
+
             sessionJpt.FindElementByName("Home").Click();
             WindowsElement find = sessionJpt.FindElementByName("Find");
             action = new Actions(sessionJpt);
@@ -91,15 +93,74 @@ namespace AutoJPT1
             action.SendKeys(Keys.Enter);
             action.Perform();
 
-            int [] faceIdArr = { 321, 317, 316, 320, 333, 343, 354, 353, 342, 332, 328, 340, 350, 351, 341, 329 };
+            int[] faceIdArr = { 321, 317, 316, 320, 333, 343, 354, 353, 342, 332, 328, 340, 350, 351, 341, 329 };
 
             WindowsElement idBox = sessionJpt.FindElementByAccessibilityId("1582");
-         
-            foreach (int faceId in faceIdArr){
+
+            foreach (int faceId in faceIdArr)
+            {
                 InputId(faceId, idBox, action, sessionJpt, find);
             }
 
             sessionJpt.FindElementByName("OK").Click();
+
+            sessionJpt.FindElementByName("Meshing").Click();
+
+            WindowsElement localSettings = sessionJpt.FindElementByName("Local Settings");
+            action = new Actions(sessionJpt);
+            action.MoveToElement(localSettings);
+            action.MoveToElement(localSettings, localSettings.Size.Width / 2 - 50, localSettings.Size.Height / 2)
+                .Click();
+            action.SendKeys(Keys.Down);
+            action.SendKeys(Keys.Enter);
+            action.Perform();
+
+            action = new Actions(sessionJpt);
+            action.SendKeys(Keys.Down);
+            action.SendKeys(Keys.Enter);
+            action.Perform();
+
+            sessionJpt.FindElementByName("Home").Click();
+
+            InputId(708, idBox, action, sessionJpt, find);
+            InputId(698, idBox, action, sessionJpt, find);
+
+            sessionJpt.FindElementByName("Mesh Size").Click();
+            typeInBox(1006, 4, sessionJpt);
+            typeInBox(1007, 1, sessionJpt);
+            typeInBox(1008, 8, sessionJpt);
+            
+            sessionJpt.FindElementByName("Apply").Click();
+
+            InputId(1, idBox, action, sessionJpt, find);
+            InputId(2, idBox, action, sessionJpt, find);
+            InputId(3, idBox, action, sessionJpt, find);
+            InputId(4, idBox, action, sessionJpt, find);
+
+            sessionJpt.FindElementByName("Mesh Size").Click();
+            sessionJpt.FindElementByName("Keep Entity").Click();
+            sessionJpt.FindElementByName("OK").Click();
+            
+
+            sessionJpt.FindElementByName("Meshing").Click();
+            sessionJpt.FindElementByName("Surface Meshing").Click();
+            typeInBox(1001, 15, sessionJpt);
+            typeInBox(1002, 1, sessionJpt);
+            typeInBox(1003, 30, sessionJpt);
+            typeInBox(1004, 1, sessionJpt);
+
+            sessionJpt.FindElementByName("OK").Click();
+            /*sessionJpt.FindElementByName("OK").Click();
+            System.Threading.Thread.Sleep(5000);
+            var okBtns = sessionJpt.FindElementsByName("OK");
+            
+            Debug.WriteLine(okBtns.Count);
+            foreach (WindowsElement okBtn in okBtns)
+            {
+                Debug.WriteLine(okBtn.Location.Y);
+            }
+            */
+
 
 
 
@@ -112,6 +173,13 @@ namespace AutoJPT1
             action = new Actions(sessionJpt);
             action.MoveToElement(find);
             action.MoveToElement(find, find.Size.Width / 2 - 30, find.Size.Height / 3 - 8).Click().Perform();
+        }
+
+        public static void typeInBox(int id, double keys, WindowsDriver<WindowsElement> sessionJpt)
+        {
+            var temp = sessionJpt.FindElementByAccessibilityId($"{id}");
+            temp.SendKeys(Keys.Control + "a" + Keys.Control);
+            temp.SendKeys($"{keys}");
         }
     }
 }
