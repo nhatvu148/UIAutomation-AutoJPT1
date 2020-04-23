@@ -35,12 +35,13 @@ namespace AutoJPT1
             sessionJpt.FindElementByName("OK").Click();
             */
             sessionJpt.FindElementByName("Open...").Click();
+            System.Threading.Thread.Sleep(3000);
             Actions action = new Actions(sessionJpt);
             action.SendKeys(@"V:\Technologies\CS\UIAutomation\ScenarioTestDocs\SampleData\Block\Block.jtdb");
             action.SendKeys(Keys.Enter);
             action.Perform();
-
             
+
             sessionJpt.FindElementByName("Mesh Cleanup").Click();
             sessionJpt.FindElementByName("Free Edges").Click();
 
@@ -72,7 +73,7 @@ namespace AutoJPT1
             action.Perform();
 
             typeInBox(1001, 0.01, sessionJpt);
-            
+
             sessionJpt.FindElementByName("OK").Click();
 
 
@@ -129,7 +130,7 @@ namespace AutoJPT1
             typeInBox(1006, 4, sessionJpt);
             typeInBox(1007, 1, sessionJpt);
             typeInBox(1008, 8, sessionJpt);
-            
+
             sessionJpt.FindElementByName("Apply").Click();
 
             InputId(1, idBox, action, sessionJpt, find);
@@ -148,18 +149,39 @@ namespace AutoJPT1
             typeInBox(1002, 1, sessionJpt);
             typeInBox(1003, 30, sessionJpt);
             typeInBox(1004, 1, sessionJpt);
-
-            sessionJpt.FindElementByName("OK").Click();
-            /*sessionJpt.FindElementByName("OK").Click();
-            System.Threading.Thread.Sleep(5000);
-            var okBtns = sessionJpt.FindElementsByName("OK");
             
+            sessionJpt.FindElementByName("OK").Click();
+            /*
+            System.Threading.Thread.Sleep(10000);
+
+            WindowsElement completeDialog = sessionJpt.FindElementByName("Meshing Surf Meshing");
+            action = new Actions(sessionJpt);
+            action.MoveToElement(completeDialog);
+            action.MoveToElement(completeDialog, completeDialog.Size.Width / 2 + 70,
+                completeDialog.Size.Height / 2 + 60)
+                .Click();
+            action.Perform();
+            */
+
+            //sessionJpt.FindElementByName("OK").Click();
+            System.Threading.Thread.Sleep(20000);
+            var okBtns = sessionJpt.FindElementsByName("OK");
+            if (okBtns[0].Location.Y < okBtns[1].Location.Y)
+            {
+                okBtns[0].Click();
+            }
+            else
+            {
+                okBtns[1].Click();
+            }
             Debug.WriteLine(okBtns.Count);
+            /*
             foreach (WindowsElement okBtn in okBtns)
             {
                 Debug.WriteLine(okBtn.Location.Y);
             }
             */
+
 
 
 
